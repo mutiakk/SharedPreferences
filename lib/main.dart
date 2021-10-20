@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shared_try/loginPage.dart';
+import 'package:shared_try/screen/loginPage.dart';
 
 void main() {
   runApp(MyApp());
