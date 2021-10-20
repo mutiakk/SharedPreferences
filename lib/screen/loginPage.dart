@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_try/api/api.dart';
 import 'package:shared_try/screen/homePage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     checkLogin();
     super.initState();
   }
+
   //hiding pass
   void _password() {
     setState(() {
@@ -34,8 +36,11 @@ class _LoginPageState extends State<LoginPage> {
   //login
   void _login() async {
     if (emailControl.text.isNotEmpty && passControl.text.isNotEmpty) {
-      var response = await http.post(Uri.parse("https://reqres.in/api/login"),
-          body: ({"email": emailControl.text, "password": passControl.text}));
+      var response = await http.post(Env().postLoginCustomer(),
+          body: ({
+            "email": emailControl.text,
+            "password": passControl.text,
+          }));
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         print("login token " + body["token"]);
@@ -45,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
         await prefs.setString("login", body['token']);
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomePage()),
-                (route) => false);
+            (route) => false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Invalid Username and Password')));

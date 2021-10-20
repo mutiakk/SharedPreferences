@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_try/screen/listPage.dart';
 import 'package:shared_try/screen/loginPage.dart';
 
 void main() {
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: UserList(),
     );
   }
 }
