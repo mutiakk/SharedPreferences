@@ -19,6 +19,11 @@ class _LoginPageState extends State<LoginPage> {
   final emailControl = TextEditingController();
   final passControl = TextEditingController();
 
+  @override
+  void initState() {
+    checkLogin();
+    super.initState();
+  }
   //hiding pass
   void _password() {
     setState(() {
@@ -29,23 +34,21 @@ class _LoginPageState extends State<LoginPage> {
   //login
   void _login() async {
     if (emailControl.text.isNotEmpty && passControl.text.isNotEmpty) {
-      var response = await http.post(
-        Uri.parse("https://reqres.in/api/login"),
-        body: ({
-         "email": emailControl.text,
-         "password": passControl.text
-        }));
-      if (response.statusCode==200){
-        final body= jsonDecode(response.body);
-        print ("login token "+body["token"]);
+      var response = await http.post(Uri.parse("https://reqres.in/api/login"),
+          body: ({"email": emailControl.text, "password": passControl.text}));
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+        print("login token " + body["token"]);
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Login Success')));
-        SharedPreferences prefs= await SharedPreferences.getInstance();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("login", body['token']);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-      }else{
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Invalid Username and Password')));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HomePage()),
+                (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Invalid Username and Password')));
       }
     } else {
       ScaffoldMessenger.of(context)
@@ -64,14 +67,15 @@ class _LoginPageState extends State<LoginPage> {
     // }
   }
 
-  void checkLogin()async{
-    SharedPreferences prefs= await SharedPreferences.getInstance();
-    String? value= prefs.getString("login");
-    if (value !=null){
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
+  void checkLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? value = prefs.getString("login");
+    if (value != null) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => HomePage()),
+          (route) => false);
     }
   }
-
 
   void _loadDialog(String text) {
     showDialog(

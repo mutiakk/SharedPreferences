@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_try/loginPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String token="";
+  String token = "";
 
   @override
   void initState() {
@@ -17,19 +18,19 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void getData()async{
-    SharedPreferences pref= await SharedPreferences.getInstance();
+  void getData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
-      token= pref.getString("login")!;
+      token = pref.getString("login")!;
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SafeArea(child: Column(
+        body: Center(
+      child: SafeArea(
+        child: Column(
           children: [
             Container(
               width: 200,
@@ -52,10 +53,17 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('$token'),
-                Text('ANJAY')
-              ],
+              children: [Text('$token'), Text('ANJAY')],
+            ),
+            RaisedButton.icon(onPressed: () async {
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              await pref.clear();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  (route) => false);
+            },
+            icon: Icon(Icons.outbond_outlined,color: Colors.white,), label: Text('Logout'),
             )
           ],
         ),

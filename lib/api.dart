@@ -1,8 +1,8 @@
 class Env{
-  String baseURL="https://apitopup.kiselindonesia.net";
+  String baseURL="https://reqres.in/";
 
   Uri postLoginCustomer() {
-    return Uri.parse(baseURL + "/login");
+    return Uri.parse(baseURL + "api/login");
   }
 
 }
