@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_try/api/api.dart';
-import 'package:shared_try/model/model_List.dart';
+import 'package:shared_try/model/model_user.dart';
 import 'package:shared_try/screen/detailPage.dart';
 
 class UserList extends StatefulWidget {
@@ -28,6 +28,7 @@ class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('List User'),),
       body: SafeArea(
         child: FutureBuilder(
           future: getDataList(),

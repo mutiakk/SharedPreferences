@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_try/api/api.dart';
+import 'package:shared_try/main.dart';
 import 'package:shared_try/screen/homePage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -49,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("login", body['token']);
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => WidgetBottom()),
             (route) => false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
     String? value = prefs.getString("login");
     if (value != null) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => WidgetBottom()),
           (route) => false);
     }
   }
